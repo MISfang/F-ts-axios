@@ -1,113 +1,146 @@
 {
-  "name": "@bndynet/typescript-lib-starter",
-  "version": "1.5.0",
-  "description": "A starter project for creating your typescript library",
-  "main": "dist/typescript-lib-starter.umd.js",
-  "module": "dist/typescript-lib-starter.es5.js",
-  "types": "dist/types/index.d.ts",
+  "name": "ts-axios-new",
+  "version": "0.1.5",
+  "description": "",
+  "keywords": [],
+  "main": "dist/axios.umd.js",
+  "module": "dist/axios.es5.js",
+  "typings": "dist/types/index.d.ts",
   "files": [
     "dist"
   ],
-  "scripts": {
-    "lint": "eslint ./src/**/*.ts",
-    "prebuild": "rimraf dist docs",
-    "build": "tsc && rollup --config ./rollup.config.ts && npm run docs",
-    "docs": "typedoc --theme ./node_modules/@bndynet/typedoc-default-themes/bin/default --out docs/api --mode file",
-    "test": "jest --coverage",
-    "watch": "rollup --config ./rollup.config.ts -w",
-    "start": "concurrently --kill-others \"npm run watch\" \"npm run site-serv\"",
-    "site-serv": "npm run docs && npm run test && lite-server",
-    "test:watch": "jest --coverage --watch",
-    "test:prod": "npm run lint && npm run test -- --no-cache",
-    "predeploy-gh-pages": "ts-node tools/gh-pages-prepare",
-    "deploy-gh-pages": "npm run predeploy-gh-pages && ts-node tools/gh-pages-publish",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
-    "semantic-release": "semantic-release",
-    "precommit": "lint-staged",
-    "republish": "ts-node tools/prepare-republish.ts",
-    "init": "ts-node tools/init.ts"
-  },
-  "keywords": [
-    "typescript",
-    "library",
-    "sass",
-    "typescript library",
-    "UMD",
-    "ES5"
-  ],
-  "author": {
-    "name": "Bendy Zhang",
-    "email": "zb@bndy.net"
-  },
+  "author": "ustbhuangyi <280309453@qq.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bndynet/typescript-lib-starter.git"
-  },
-  "publishConfig": {
-    "access": "public"
+    "url": "https://github.com/ustbhuangyi/ts-axios"
   },
   "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@bndynet/cli": "^1.2.0",
-    "@bndynet/typedoc-default-themes": "^0.5.1",
-    "@commitlint/cli": "^7.1.2",
-    "@rollup/plugin-babel": "^5.2.1",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
-    "@rollup/plugin-replace": "^2.3.4",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/git": "^9.0.0",
-    "@types/jest": "^23.3.12",
-    "@types/node": "^12.11.7",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
-    "autoprefixer": "^9.4.6",
-    "awesome-typescript-loader": "^5.2.1",
-    "babel-jest": "^23.6.0",
-    "babel-preset-env": "^1.7.0",
-    "concurrently": "^5.0.0",
-    "coveralls": "^3.0.2",
-    "eslint": "^7.13.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "husky": "^1.3.1",
-    "jest": "^24.9.0",
-    "jest-config": "^23.6.0",
-    "jest-transform-stub": "^1.0.0",
-    "jsdom": "13.1.0",
-    "jsdom-global": "^3.0.2",
-    "lint-staged": "^8.1.0",
-    "lite-server": "^2.5.4",
-    "node-sass": "^5.0.0",
-    "organize-imports-cli": "^0.8.0",
-    "postcss": "^7.0.14",
-    "prettier": "^2.1.2",
-    "rimraf": "^2.6.2",
-    "rollup": "^2.33.3",
-    "rollup-plugin-sass": "^1.1.0",
-    "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-terser": "^4.0.2",
-    "rollup-plugin-typescript2": "^0.29.0",
-    "semantic-release": "^17.2.2",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^7.0.1",
-    "typedoc": "^0.19.2",
-    "typescript": "^4.0.5"
+  "engines": {
+    "node": ">=6.0.0"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged"
-    }
+  "scripts": {
+    "dev": "node examples/server.js",
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "deploy-docs": "ts-node tools/gh-pages-publish",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release",
+    "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
+    "precommit": "lint-staged",
+    "travis-deploy-once": "travis-deploy-once",
+    "prepub": "npm run test:prod && npm run build",
+    "pub": "sh release.sh"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
-      "organize-imports-cli",
       "prettier --write",
       "git add"
     ]
   },
-  "dependencies": {}
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "jsdom",
+    "testRegex": "/test/.*\\.(test|spec)\\.(ts)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}",
+      "src/**/*.{js,ts}"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/boot.ts"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.1.2",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^10.11.0",
+    "@types/nprogress": "0.0.29",
+    "@types/qs": "^6.5.3",
+    "@types/jasmine-ajax": "^3.1.39",
+    "atob": "^2.1.2",
+    "body-parser": "^1.18.3",
+    "colors": "^1.3.2",
+    "commitizen": "^3.0.0",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.4",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.1.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "express": "^4.16.4",
+    "husky": "^1.0.1",
+    "jest": "^24.8.0",
+    "jest-config": "^24.8.0",
+    "lint-staged": "^8.0.0",
+    "lodash.camelcase": "^4.3.0",
+    "nprogress": "^0.2.0",
+    "prettier": "^1.14.3",
+    "prompt": "^1.0.0",
+    "qs": "^6.7.0",
+    "replace-in-file": "^3.4.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.0",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.18.0",
+    "semantic-release": "^15.9.16",
+    "shelljs": "^0.8.3",
+    "style-loader": "^0.23.1",
+    "travis-deploy-once": "^5.0.9",
+    "ts-jest": "^24.0.2",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-loader": "^3.5.4",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.4.5",
+    "webpack": "^4.28.4",
+    "webpack-dev-middleware": "^3.5.0",
+    "webpack-hot-middleware": "^2.24.3",
+    "jasmine-ajax": "^4.0.0",
+    "jasmine-core": "^3.4.0"
+  }
 }
