@@ -21,4 +21,12 @@ const enCode = (val: string): string => {
     .replace(/%5D/gi, ']')
 }
 
-export { isDate, enCode, isPlainObject }
+const extend = <T, U>(to: T, from: U): T & U => {
+  for (const key in from) {
+    ;(to as T & U)[key] = from[key] as any
+  }
+
+  return to as T & U
+}
+
+export { isDate, enCode, isPlainObject, extend }
