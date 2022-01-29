@@ -7,4 +7,17 @@ export interface IAxiosRequestConfig {
   method?: Methods
   data?: any
   params?: any
+  headers?: any
+  responseType?: XMLHttpRequestResponseType
 }
+
+export interface IAxiosResponse {
+  data: any
+  status: number
+  statusText: string
+  headers: any
+  config: IAxiosRequestConfig
+  request: any
+}
+
+export interface IAxiosPromise extends Promise<IAxiosResponse> {}

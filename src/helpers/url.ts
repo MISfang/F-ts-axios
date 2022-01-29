@@ -1,4 +1,4 @@
-import { isDate, isObject, enCode } from './utils'
+import { isDate, isPlainObject, enCode } from './utils'
 
 const buildURL = (url: string, params?: any): string => {
   if (!params) return url
@@ -19,7 +19,7 @@ const buildURL = (url: string, params?: any): string => {
     values.forEach(val => {
       if (isDate(val)) {
         val = val.toISOString()
-      } else if (isObject(val)) {
+      } else if (isPlainObject(val)) {
         val = JSON.stringify(val)
       }
       parts.push(`${enCode(item)}=${enCode(val)}`)

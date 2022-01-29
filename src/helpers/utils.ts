@@ -4,8 +4,11 @@ const isDate = (val: any): val is Date => {
   return FtoString.call(val) === '[object Date]'
 }
 
-const isObject = (val: any): val is Object => {
-  return val !== null && typeof val === 'object'
+// const isObject = (val: any): val is Object => {
+//   return val !== null && typeof val === 'object'
+// }
+const isPlainObject = (val: any): val is Object => {
+  return FtoString.call(val) === '[object Object]'
 }
 const enCode = (val: string): string => {
   return encodeURIComponent(val)
@@ -18,4 +21,4 @@ const enCode = (val: string): string => {
     .replace(/%5D/gi, ']')
 }
 
-export { isDate, isObject, enCode }
+export { isDate, enCode, isPlainObject }

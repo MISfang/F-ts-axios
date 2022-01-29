@@ -1,6 +1,6 @@
-import axios from '../../src/index'
+import Faxios from '../../src/index'
 
-axios({
+Faxios({
   method: 'get',
   url: '/simple/get',
   params: {
@@ -8,8 +8,3 @@ axios({
     b: 2
   }
 })
-
-
-
-
-
