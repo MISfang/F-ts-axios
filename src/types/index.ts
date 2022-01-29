@@ -9,6 +9,7 @@ export interface IAxiosRequestConfig {
   params?: any
   headers?: any
   responseType?: XMLHttpRequestResponseType
+  timeout?: number
 }
 
 export interface IAxiosResponse {
