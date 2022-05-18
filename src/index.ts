@@ -1,4 +1,6 @@
-import Faxios from './Faxios'
+import { IAxiosRequestConfig } from './types'
+import xhr from './xhr'
 
-export * from './types'
-export default Faxios
+export default function(config: IAxiosRequestConfig) {
+  xhr(config)
+}
