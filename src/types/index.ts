@@ -1,6 +1,6 @@
 import { Imethod } from './enum'
 interface IAxiosRequestConfig {
-  url: string
+  url?: string
   method?: Imethod
   data?: any
   params?: any
@@ -8,8 +8,8 @@ interface IAxiosRequestConfig {
   responseType?: XMLHttpRequestResponseType
   timeout?: number
 }
-interface IAxiosResponse {
-  data: any
+interface IAxiosResponse<T = any> {
+  data: T
   status: number
   statusText: string
   headers: any
@@ -17,6 +17,34 @@ interface IAxiosResponse {
   request: any
 }
 
-interface IAxiosPromise extends Promise<IAxiosResponse> {}
+interface IAxiosError extends Error {
+  isAxiosError: boolean
+  config: IAxiosRequestConfig
+  code?: string | null
+  request?: any
+  response?: IAxiosResponse
+}
 
-export { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise }
+interface IAxiosPromise<T = any> extends Promise<IAxiosResponse<T>> {}
+
+interface IFaxios {
+  request<T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
+
+  get<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
+  delete<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
+  head<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
+  options<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
+
+  post<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
+  put<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
+  patch<T = any>(url: string, data?: any, config?: IAxiosRequestConfig): IAxiosPromise<T>
+}
+
+interface IAxiosIntsance extends IFaxios {
+  <T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
+  <T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>
+}
+
+export { IAxiosRequestConfig, IAxiosResponse, IAxiosPromise, IAxiosError, IAxiosIntsance, IFaxios, Imethod }
+
+export { IAxiosInterceptorManager, FResolveFn, FRejectedeFn } from './axiosInterceptor'

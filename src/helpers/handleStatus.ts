@@ -1,10 +1,11 @@
-import { IAxiosResponse } from '../types'
+import { IAxiosResponse, IAxiosRequestConfig } from '../types'
+import { createError } from './index'
 
-const handleStatus = (response: IAxiosResponse, resolve: Function, reject: Function) => {
+const handleStatus = (response: IAxiosResponse, resolve: Function, reject: Function, config: IAxiosRequestConfig, req: any, res: any) => {
   if (response.status >= 200 && response.status < 300) {
     resolve(response)
   } else {
-    reject(new Error(`请求失败,状态码为${response.status}`))
+    reject(createError(`请求失败,状态码为${response.status}`, config, 'RequestError!', req, res))
   }
 }
 

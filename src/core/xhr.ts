@@ -1,5 +1,5 @@
-import { IAxiosRequestConfig, IAxiosPromise, IAxiosResponse } from './types'
-import { buildResponseHeader, handleStatus } from './helpers'
+import { IAxiosRequestConfig, IAxiosPromise, IAxiosResponse } from '../types'
+import { buildResponseHeader, handleStatus, createError } from '../helpers'
 
 export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
   return new Promise((resolve, reject) => {
@@ -12,7 +12,7 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
     if (timeout) {
       xhr.timeout = timeout
     }
-    xhr.open(method.toUpperCase(), url, true)
+    xhr.open(method.toUpperCase(), url!, true)
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState !== 4) {
@@ -32,15 +32,15 @@ export default function xhr(config: IAxiosRequestConfig): IAxiosPromise {
         request: xhr
       }
 
-      handleStatus(response, resolve, reject)
+      handleStatus(response, resolve, reject, config, xhr, response)
     }
 
     // 错误处理区域
     xhr.onerror = () => {
-      reject(new Error('网络错误！请检查网络连接！'))
+      reject(createError('网络错误！请检查网络连接！', config, null, xhr))
     }
     xhr.ontimeout = () => {
-      reject(new Error(`请求超时(${timeout})，请稍后重试！`))
+      reject(createError(`请求超时(${timeout})，请稍后重试！`, config, 'Request TimeOut!', xhr))
     }
     // 错误处理区域结束
 

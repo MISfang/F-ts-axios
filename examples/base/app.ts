@@ -1,14 +1,14 @@
-import Faxios from '../../src/index'
+import axios from '../../src/index'
 
-// Faxios({
+// axios({
 //   method: 'get',
 //   url: '/base/get',
 //   params: {
 //     foo: ['bar', 'baz']
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get',
 //   params: {
@@ -17,26 +17,26 @@ import Faxios from '../../src/index'
 //     }
 //   }
 // })
-
+//
 // const date = new Date()
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get',
 //   params: {
 //     date
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get',
 //   params: {
 //     foo: '@:$, '
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get',
 //   params: {
@@ -44,24 +44,24 @@ import Faxios from '../../src/index'
 //     baz: null
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get#hash',
 //   params: {
 //     foo: 'bar'
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'get',
 //   url: '/base/get?foo=bar',
 //   params: {
 //     bar: 'baz'
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'post',
 //   url: '/base/post',
 //   data: {
@@ -69,8 +69,8 @@ import Faxios from '../../src/index'
 //     b: 2
 //   }
 // })
-
-// Faxios({
+//
+// axios({
 //   method: 'post',
 //   url: '/base/post',
 //   headers: {
@@ -81,36 +81,37 @@ import Faxios from '../../src/index'
 //     b: 2
 //   }
 // })
-
+//
 // const arr = new Int32Array([21, 31])
-
-// Faxios({
+//
+// axios({
 //   method: 'post',
 //   url: '/base/buffer',
 //   data: arr
 // })
-
+//
+//
 // const paramsString = 'q=URLUtils.searchParams&topic=api'
 // const searchParams = new URLSearchParams(paramsString)
-
-// Faxios({
+//
+// axios({
 //   method: 'post',
 //   url: '/base/post',
 //   data: searchParams
 // })
 
-Faxios({
+axios({
   method: 'post',
   url: '/base/post',
   data: {
     a: 1,
     b: 2
   }
-}).then(res => {
-  console.log('%c 🍡 res: ', 'font-size:20px;background-color: #FCA650;color:#fff;', res);
+}).then((res) => {
+  console.log(res)
 })
 
-Faxios({
+axios({
   method: 'post',
   url: '/base/post',
   responseType: 'json',
@@ -118,6 +119,6 @@ Faxios({
     a: 3,
     b: 4
   }
-}).then(res => {
-  console.log('%c 🥘 res: ', 'font-size:20px;background-color: #FFDD4D;color:#fff;', res);
+}).then((res) => {
+  console.log(res)
 })
