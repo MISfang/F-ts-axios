@@ -1,5 +1,5 @@
 interface IAxiosInterceptorManager<T> {
-  use(resolve: FResolveFn<T>, reject: FRejectedeFn): number
+  use(resolved: FResolveFn<T>, rejected?: FRejectedeFn): number
   eject(id: number): void
 }
 interface FResolveFn<T> {

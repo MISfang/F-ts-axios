@@ -1,4 +1,5 @@
 import { Imethod } from './enum'
+import { IInterceptors } from '../core/Faxios'
 interface IAxiosRequestConfig {
   url?: string
   method?: Imethod
@@ -28,6 +29,8 @@ interface IAxiosError extends Error {
 interface IAxiosPromise<T = any> extends Promise<IAxiosResponse<T>> {}
 
 interface IFaxios {
+  defaultConfig: IAxiosRequestConfig
+  interceptors: IInterceptors
   request<T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
 
   get<T = any>(url: string, config?: IAxiosRequestConfig): IAxiosPromise<T>

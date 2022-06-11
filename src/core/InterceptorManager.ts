@@ -1,20 +1,21 @@
 import { IAxiosInterceptorManager, FResolveFn, FRejectedeFn } from '../types'
 
 interface IInterceptor<T> {
-  resolve: FResolveFn<T>
-  reject?: FRejectedeFn
+  resolved: FResolveFn<T>
+  rejected?: FRejectedeFn
 }
 
-class InterceptorManager<T> {
+class InterceptorManager<T> implements IAxiosInterceptorManager<T> {
   private interceptors: Array<IInterceptor<T> | null>
+
   constructor() {
     this.interceptors = []
   }
 
-  use(resolve: FResolveFn<T>, reject?: FRejectedeFn): number {
+  use(resolved: FResolveFn<T>, rejected?: FRejectedeFn): number {
     this.interceptors.push({
-      resolve,
-      reject
+      resolved,
+      rejected
     })
     return this.interceptors.length - 1
   }

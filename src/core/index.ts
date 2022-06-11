@@ -1,15 +1,16 @@
-import { IAxiosIntsance } from '../types'
+import { IAxiosIntsance, IAxiosRequestConfig } from '../types'
 import Faxios from './Faxios'
 import { extend } from '../helpers'
+import { defaultConfig } from './defaults'
 
-function createIntsance() {
-  const context = new Faxios()
+function createIntsance(config: IAxiosRequestConfig) {
+  const context = new Faxios(config)
   const request = Faxios.prototype.request
   const instance = request.bind(context)
   extend(instance, context)
   return instance as IAxiosIntsance
 }
 
-const axios = createIntsance()
+const axios = createIntsance(defaultConfig)
 
 export default axios

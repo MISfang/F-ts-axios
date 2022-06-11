@@ -1,19 +1,28 @@
 import dispatchRequest from './dispatchRequest'
-import { IAxiosRequestConfig, IAxiosPromise, Imethod, IAxiosResponse } from '../types'
+import { IAxiosRequestConfig, IAxiosPromise, Imethod, IAxiosResponse, FResolveFn, FRejectedeFn } from '../types'
 import { InterceptorManager } from './InterceptorManager'
 
-interface IInterceptors {
+export interface IInterceptors {
   request: InterceptorManager<IAxiosRequestConfig>
   response: InterceptorManager<IAxiosResponse>
 }
 
+type IDispatchRequest = (config: IAxiosRequestConfig) => IAxiosPromise
+
+interface IPromiseChain<T> {
+  resolved: FResolveFn<T> | IDispatchRequest
+  rejected?: FRejectedeFn
+}
+
 class Faxios {
   interceptors: IInterceptors
-  constructor() {
+  defaultConfig: IAxiosRequestConfig
+  constructor(initConfig: IAxiosRequestConfig) {
     this.interceptors = {
       request: new InterceptorManager<IAxiosRequestConfig>(),
       response: new InterceptorManager<IAxiosResponse>()
     }
+    this.defaultConfig = initConfig
   }
   request(url: string | IAxiosRequestConfig, config: IAxiosRequestConfig = {}): IAxiosPromise {
     if (typeof url === 'string') {
@@ -21,8 +30,27 @@ class Faxios {
     } else {
       config = url
     }
-    return dispatchRequest(config)
+
+    const chain: IPromiseChain<any>[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined
+      }
+    ]
+    this.interceptors.request.forEach(interceptor => {
+      chain.unshift(interceptor)
+    })
+    this.interceptors.response.forEach(interceptor => {
+      chain.push(interceptor)
+    })
+    let resPromise = Promise.resolve(config)
+    while (chain.length) {
+      const { resolved, rejected } = chain.shift()!
+      resPromise = resPromise.then(resolved, rejected)
+    }
+    return resPromise as IAxiosPromise
   }
+
   // 不要data的几个方法
   private _requestWithoutData(method: Imethod, url: string, config: IAxiosRequestConfig = {}): IAxiosPromise {
     return this.request({
