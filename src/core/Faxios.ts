@@ -1,6 +1,7 @@
 import dispatchRequest from './dispatchRequest'
 import { IAxiosRequestConfig, IAxiosPromise, Imethod, IAxiosResponse, FResolveFn, FRejectedeFn } from '../types'
 import { InterceptorManager } from './InterceptorManager'
+import mergeConfig from '../helpers/mergeConfig'
 
 export interface IInterceptors {
   request: InterceptorManager<IAxiosRequestConfig>
@@ -16,20 +17,23 @@ interface IPromiseChain<T> {
 
 class Faxios {
   interceptors: IInterceptors
-  defaultConfig: IAxiosRequestConfig
+  defaults: IAxiosRequestConfig
+
   constructor(initConfig: IAxiosRequestConfig) {
     this.interceptors = {
       request: new InterceptorManager<IAxiosRequestConfig>(),
       response: new InterceptorManager<IAxiosResponse>()
     }
-    this.defaultConfig = initConfig
+    this.defaults = initConfig
   }
+
   request(url: string | IAxiosRequestConfig, config: IAxiosRequestConfig = {}): IAxiosPromise {
     if (typeof url === 'string') {
       config.url = url
     } else {
       config = url
     }
+    config = mergeConfig(this.defaults, config)
 
     const chain: IPromiseChain<any>[] = [
       {
@@ -43,6 +47,7 @@ class Faxios {
     this.interceptors.response.forEach(interceptor => {
       chain.push(interceptor)
     })
+
     let resPromise = Promise.resolve(config)
     while (chain.length) {
       const { resolved, rejected } = chain.shift()!

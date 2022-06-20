@@ -1,6 +1,6 @@
 import { IAxiosRequestConfig, IAxiosPromise } from '../types'
 import xhr from './xhr'
-import { buildUrl, buildData, buildHeaders, buildResponseData } from '../helpers'
+import { buildUrl, buildData, buildHeaders, buildResponseData, flattenHeaders } from '../helpers'
 
 function Faxios(config: IAxiosRequestConfig): IAxiosPromise {
   processConfig(config)
@@ -14,6 +14,7 @@ const processConfig = (config: IAxiosRequestConfig) => {
   config.url = transformUrl(config)
   config.headers = transformRequestHeaders(config)
   config.data = transformRequestData(config)
+  // config.headers = flattenHeaders(config.headers, config.method!)
 }
 
 const transformUrl = ({ url, params }: IAxiosRequestConfig) => {

@@ -28,12 +28,12 @@ axios.interceptors.response.use(res => {
 
 axios.interceptors.response.eject(interceptor)
 
-axios({
-  url: '/interceptor/get',
-  method: 'get',
-  headers: {
-    test: ''
-  }
-}).then((res) => {
-  console.log(res.data)
-})
+// axios({
+//   url: '/interceptor/get',
+//   method: 'get',
+//   headers: {
+//     test: ''
+//   }
+// }).then((res) => {
+//   console.log(res.data)
+// })

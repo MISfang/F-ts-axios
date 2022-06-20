@@ -8,6 +8,7 @@ interface IAxiosRequestConfig {
   headers?: any
   responseType?: XMLHttpRequestResponseType
   timeout?: number
+  [key: string]: any
 }
 interface IAxiosResponse<T = any> {
   data: T
@@ -29,7 +30,7 @@ interface IAxiosError extends Error {
 interface IAxiosPromise<T = any> extends Promise<IAxiosResponse<T>> {}
 
 interface IFaxios {
-  defaultConfig: IAxiosRequestConfig
+  defaults: IAxiosRequestConfig
   interceptors: IInterceptors
   request<T = any>(config: IAxiosRequestConfig): IAxiosPromise<T>
 

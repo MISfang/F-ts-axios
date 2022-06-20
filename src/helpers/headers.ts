@@ -1,4 +1,5 @@
-import { isObject } from './utils'
+import { deepMerge, isObject } from './utils'
+import { Imethod } from '../types'
 
 const normalizedHeaders = (headers: any, target: string) => {
   if (!headers) {
@@ -40,4 +41,12 @@ const buildResponseHeader = (headers: string): any => {
   return res
 }
 
-export { buildHeaders, buildResponseHeader }
+const flattenHeaders = (headers: any, method: Imethod) => {
+  if (!headers) return headers
+  headers = deepMerge(headers.common, headers[method], headers)
+  const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common']
+  methodsToDelete.forEach(method => {
+    delete headers[method]
+  })
+}
+export { buildHeaders, buildResponseHeader, flattenHeaders }

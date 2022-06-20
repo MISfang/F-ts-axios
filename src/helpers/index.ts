@@ -1,6 +1,6 @@
 export { createError } from './error'
 export { buildUrl } from './urlHelper'
 export { buildResponseData, buildData } from './data'
-export { buildHeaders, buildResponseHeader } from './headers'
+export { buildHeaders, buildResponseHeader, flattenHeaders } from './headers'
 export { handleStatus } from './handleStatus'
 export { extend } from './utils'
